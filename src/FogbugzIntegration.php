@@ -79,6 +79,7 @@ class FogbugzIntegration {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $this->getApiUrl());
 		curl_setopt($ch, CURLOPT_HEADER, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$response = curl_exec($ch);
 		return (bool) $response;
 	}
