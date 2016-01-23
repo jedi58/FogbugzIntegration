@@ -325,33 +325,41 @@ class FogbugzIntegration {
 	 * Returns an array of all priorities
 	 * @return string[] The array of all priorities
 	 */
-	public function getAllPriorities()
+	public function getAllPriorities($raw = false)
 	{
 		$result = $this->_sendRequest('cmd=listPriorities');
-		$priorities = array();
-		for ($i = 0; $i < sizeof($result->priorities->priority); $i++) {
-			$priorities[intval($result->priorities->priority[$i]->ixPriority)] = array(
-				(string) $result->priorities->priority[$i]->sPriority,
-				(string) $result->priorities->priority[$i]->fDefault == 'true' ? true : false
-			);
+		if (!$raw) {
+			$priorities = array();
+			for ($i = 0; $i < sizeof($result->priorities->priority); $i++) {
+				$priorities[intval($result->priorities->priority[$i]->ixPriority)] = array(
+					(string) $result->priorities->priority[$i]->sPriority,
+					(string) $result->priorities->priority[$i]->fDefault == 'true' ? true : false
+				);
+			}
+			return $priorities;
+		} else {
+			return $result;
 		}
-		return $priorities;
 	}
 	/**
 	 * Returns an array of all projects
 	 * @return string[] The array of all projects
 	*/
-	public function getProjectList ()
+	public function getProjectList ($raw = false)
 	{
 		$result = $this->_sendRequest('cmd=listProjects'); 
-		$projects = array();
-		for ($i = 0; $i < sizeof($result->projects->project); $i++) {
-			$projects[intval($result->projects->project[$i]->ixProject)] = array(
-				(string) $result->projects->project[$i]->sProject, 
-				intval($result->projects->project[$i]->ixPersonOwner)
-			);
+		if (!$raw) {
+			$projects = array();
+			for ($i = 0; $i < sizeof($result->projects->project); $i++) {
+				$projects[intval($result->projects->project[$i]->ixProject)] = array(
+					(string) $result->projects->project[$i]->sProject, 
+					intval($result->projects->project[$i]->ixPersonOwner)
+				);
+			}
+			return $projects;
+		} else {
+			return $result;
 		}
-		return $projects;
 	}
 	/**
 	 * Changes which filter is in use
