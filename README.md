@@ -19,7 +19,11 @@ Below are examples for using this class.
 9. [Searching for an issue](#search)
 10. [Using filters](#filter)
 11. [Retrieving a list of projects](#getProjects)
-12. [Retrieving a list of available priorities](getPriorities)
+12. [Retrieving a list of available priorities](#getPriorities)
+13. [Retrieving a list of available areas for a project](#getAreas)
+14. [Retrieving a list of available issue categories](#getCategories)
+15. [Retrieving a list of available filters](#getFilters)
+16. [Retrieve ticket status](#ticketStatus)
 
 <a name="connecting"></a>
 ### Connecting to FogBugz
@@ -139,3 +143,53 @@ $priorities = $fb->getAllPriorities();
 ```
 
 This will retrieve an array where each element is an array of the priority name and a flag indicating if it's the default, and is indexed by the ID of the priority. Passing in `true` to this function will return the raw SimpleXML output from the API instead.
+
+
+<a name="getAreas"></a>
+### Retrieving a list of available areas for a project
+The result of this is limited to what the user signed into the API has access to.
+```php
+$fb = new FogbugzIntegration('http://example.fogbugz.com', 'user@example.com', 'password');
+$areas = $fb->getAllAreas(1);
+```
+
+This will retrieve an array where each element is an array of area names indexed by the ID of the area.
+
+
+<a name="getCategories"></a>
+### Retrieving a list of available issue categories
+```php
+$fb = new FogbugzIntegration('http://example.fogbugz.com', 'user@example.com', 'password');
+$categories = $fb->getAllCategories();
+```
+
+This will retrieve an array where each element is an array of issue categories indexed by the ID of the category.
+
+
+<a name="getFilters></a>
+### Retrieving a list of available filters
+```php
+$fb = new FogbugzIntegration('http://example.fogbugz.com', 'user@example.com', 'password');
+$categories = $fb->getAllFilters();
+```
+
+
+<a name="ticketStatus"></a>
+### Retrieve ticket status
+```php
+$fb = new FogbugzIntegration('http://example.fogbugz.com', 'user@example.com', 'password');
+$status = getTicketStatus(1);
+```
+
+This will return the specified status as a SimpleXML element.
+
+
+<a name="getUsers"></a>
+### Retrieve a list of FogBugz Users for the current install
+With FogBugz you have three types of users: normal, virtual, and community. The below example will return normal and virtual users, but will ignore community users.
+```php
+$fb = new FogbugzIntegration('http://example.fogbugz.com', 'user@example.com', 'password');
+$users = $fb->getAllFogbugzUsers(true, true, false);
+```
+
+This will return an array of users indexed by their ID and containing their name and email address.
